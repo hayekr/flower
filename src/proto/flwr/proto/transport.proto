@@ -17,6 +17,8 @@ syntax = "proto3";
 
 package flwr.proto;
 
+import "google/protobuf/timestamp.proto";
+
 service FlowerService {
   rpc Join(stream ClientMessage) returns (stream ServerMessage) {}
 }
@@ -63,6 +65,7 @@ message ServerMessage {
     FitIns fit_ins = 4;
     EvaluateIns evaluate_ins = 5;
   }
+  google.protobuf.Timestamp timestamp = 100;
 }
 
 message ClientMessage {
@@ -94,6 +97,7 @@ message ClientMessage {
     FitRes fit_res = 4;
     EvaluateRes evaluate_res = 5;
   }
+  google.protobuf.Timestamp timestamp = 100;
 }
 
 message Scalar {
