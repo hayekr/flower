@@ -59,7 +59,7 @@ from flwr.proto.task_pb2 import TaskIns  # pylint: disable=E0611
 
 from .client_interceptor import AuthenticateClientInterceptor
 from .grpc_adapter import GrpcAdapter
-
+import time
 
 def on_channel_state_change(channel_connectivity: str) -> None:
     """Log channel connectivity."""
@@ -236,7 +236,7 @@ def grpc_request_response(  # pylint: disable=R0913,R0914,R0915,R0917
         # Request instructions (task) from server
         request = PullTaskInsRequest(node=node)
         response = retry_invoker.invoke(stub.PullTaskIns, request=request)
-
+        reception = time.time()
         # Get the current TaskIns
         task_ins: Optional[TaskIns] = get_task_ins(response)
 
@@ -253,7 +253,9 @@ def grpc_request_response(  # pylint: disable=R0913,R0914,R0915,R0917
         # Remember `metadata` of the in message
         nonlocal metadata
         metadata = copy(in_message.metadata) if in_message else None
-
+        # Set ReceivedAt field of metadata
+        if metadata is not None:
+            metadata.received_at = reception
         # Return the message if available
         return in_message
 
