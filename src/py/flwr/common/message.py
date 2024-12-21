@@ -134,6 +134,14 @@ class Metadata:  # pylint: disable=too-many-instance-attributes
         """Set creation timestamp for this message."""
         self.__dict__["_recieved_at"] = value
     @property
+    def sent_at(self) -> float:
+        """Unix timestamp when the message was sent."""
+        return cast(float, self.__dict__["_recieved_at"])
+    @sent_at.setter
+    def sent_at(self, value: float) -> None:
+        """Set creation timestamp for this message."""
+        self.__dict__["_recieved_at"] = value
+    @property
     def ttl(self) -> float:
         """Time-to-live for this message."""
         return cast(float, self.__dict__["_ttl"])

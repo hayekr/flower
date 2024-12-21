@@ -277,6 +277,8 @@ def grpc_request_response(  # pylint: disable=R0913,R0914,R0915,R0917
             log(ERROR, "Invalid out message")
             return
 
+        # Set sent_at
+        message.metadata.sent_at = time.time()
         # Construct TaskRes
         task_res = message_to_taskres(message)
 
